@@ -1,0 +1,189 @@
+/* ===================== VARIABEL WARNA ===================== */
+:root {
+  --bg: #060918;
+  --card: #0f1433;
+  --line: #242b5c;
+  --tx: #eef0ff;
+  --mut: #8f97c9;
+  --pur: #a78bfa;
+  --grn: #34d399;
+  --gold: #fbbf24;
+  --red: #fb7185;
+  color-scheme: dark;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+* { box-sizing: border-box; }
+html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: radial-gradient(1200px 600px at 50% -10%, #1a1f52 0, var(--bg) 60%) fixed;
+  color: var(--tx);
+  font-family: 'Sora', system-ui, sans-serif;
+}
+
+.app { max-width: 480px; margin: 0 auto; padding: 14px 14px 28px; }
+
+/* ===================== HEADER ===================== */
+header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+header h1 { margin: 0; font-size: 20px; font-weight: 800; letter-spacing: .3px; }
+header small { color: var(--mut); font-size: 11px; }
+.sp { flex: 1; }
+
+.ib {
+  width: 40px; height: 40px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  color: var(--tx);
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.bal {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 5px 12px;
+  text-align: right;
+}
+.bal span { display: block; font-size: 9px; color: var(--mut); letter-spacing: 1px; }
+.bal b { color: var(--gold); font-size: 15px; }
+
+/* ===================== PANGGUNG (KANVAS) ===================== */
+.stage {
+  position: relative;
+  height: 300px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: 0 10px 40px #0008;
+}
+canvas { display: block; width: 100%; height: 100%; }
+
+.ov {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: flex-start;
+  padding-top: 12px;
+  text-align: center;
+  pointer-events: none;
+}
+
+/* Angka pengali (x) -- ukuran sudah diperkecil */
+#mult {
+  font-size: 32px;
+  font-weight: 800;
+  text-shadow: 0 2px 12px #000a;
+  transition: color .2s;
+}
+#lbl {
+  margin-top: 3px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-shadow: 0 1px 8px #000;
+}
+
+/* ===================== KARTU & FORM ===================== */
+.card {
+  margin-top: 12px;
+  padding: 14px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+.row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.lab { min-width: 70px; font-size: 12px; color: var(--mut); }
+
+.chip {
+  padding: 7px 13px;
+  background: #171d45;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--tx);
+  font: 600 12px 'Sora', sans-serif;
+  cursor: pointer;
+}
+.chip.on { background: var(--pur); border-color: var(--pur); color: #120a33; }
+
+input {
+  width: 120px;
+  padding: 9px 10px;
+  background: #0a0e26;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--tx);
+  font: 600 13px 'Sora', sans-serif;
+  outline: none;
+}
+input:focus { border-color: var(--pur); }
+input:disabled, .chip:disabled { opacity: .45; }
+
+/* Tombol utama */
+.btn {
+  width: 100%;
+  margin-top: 12px;
+  padding: 15px;
+  border: 0;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #a78bfa, #7c5cf0);
+  color: #fff;
+  font: 800 14px 'Sora', sans-serif;
+  letter-spacing: .5px;
+  cursor: pointer;
+}
+.btn.sec { background: #5a5f9e; }
+.btn.go { background: linear-gradient(135deg, #34d399, #16a671); }
+.btn:disabled { background: #4a4f86; opacity: .5; cursor: default; }
+
+/* Tombol tarik euy wd + tarik seteng berdampingan */
+.actions { display: flex; gap: 8px; margin-top: 12px; }
+.actions .btn { margin-top: 0; }
+#main { flex: 1.5; }
+.btn.half {
+  flex: 1;
+  display: none;                       /* muncul hanya saat sedang terbang */
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  color: #2a1a00;
+  font-size: 11px;
+  line-height: 1.25;
+}
+
+#msg { min-height: 14px; margin-top: 6px; font-size: 11px; color: var(--red); }
+
+h3 { display: flex; justify-content: space-between; align-items: center; margin: 0 0 10px; font-size: 13px; }
+h3 small { color: var(--mut); font-size: 11px; font-weight: 400; }
+
+/* Chip hasil ronde terakhir */
+.pill { padding: 5px 11px; border-radius: 999px; font-size: 12px; font-weight: 700; }
+.c1 { background: #1f3a8a; }
+.c2 { background: #5b3fc4; }
+.c3 { background: #b7791f; }
+
+/* Tabel riwayat */
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+td, th { padding: 6px 4px; text-align: right; }
+th { color: var(--mut); font-weight: 400; }
+td:first-child, th:first-child { text-align: left; }
+
+/* Statistik */
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; text-align: center; }
+.stats span { display: block; font-size: 10px; color: var(--mut); }
+.stats b { font-size: 13px; }
+
+.sm {
+  padding: 3px 9px;
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--mut);
+  font: 11px 'Sora', sans-serif;
+  cursor: pointer;
+}
+
+footer { margin-top: 16px; text-align: center; font-size: 11px; line-height: 1.6; color: var(--mut); }
